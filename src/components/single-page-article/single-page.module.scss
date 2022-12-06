@@ -1,0 +1,79 @@
+.body{
+  width: 900px;
+  height:max-content;
+  background-color: #fff;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px 20px 15px;
+  box-sizing:border-box;
+}
+
+// ARTICLE
+.article{
+  max-width: 80%;
+  margin-right: 50px;
+  &_header{
+    display: flex;
+    margin-bottom: 5px;
+  }
+  &_title{
+    font-size: 20px;
+    color:#1890FF;
+    margin-right: 15px;
+   word-wrap: break-word;
+  width: 100%;
+  }
+
+  &_likes{
+    font-size: 12px;
+    &::before{
+      content: '♡';
+      margin-right: 5px;
+    }
+  }
+  &_tags{
+    display: flex;
+    margin-bottom: 5px;
+  }
+  &_tag{
+    display: block;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    color:rgba(0, 0, 0, 0.5);
+    padding: 0px 5px 0px 5px;
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 20px;
+    margin-right: 10px;
+    height: 20px;
+    overflow: hidden;
+  }
+
+  &_text{
+    font-size: 12px;
+    line-height: 22px;
+    color:rgba(0, 0, 0, 0.75);
+    word-wrap: break-word;
+  }
+}
+// USER
+
+.user{
+  display: flex;
+  &_info{
+    margin-right: 15px;
+    text-align: right;
+  }
+  &_name{
+    color:rgba(0, 0, 0, 0.85);
+    font-size: 18px;
+  }
+  &_date{
+    font-size: 12px;
+  }
+  &_avatar{
+    height: 46px;
+    width: 46px;
+  }
+}

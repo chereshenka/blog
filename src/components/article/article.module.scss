@@ -1,0 +1,103 @@
+.body{
+  height: 140px;
+  width: 900px;
+  background-color: #fff;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px 20px 15px;
+  box-sizing: border-box;
+}
+
+// ARTICLE
+.article{
+  margin-right: 50px;
+  &_header{
+    display: flex;
+    margin-bottom: 5px;
+  }
+  &_title{
+    font-size: 20px;
+    color:#1890FF;
+    margin-right: 15px;
+    //elipsis start
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 25px;
+    -ms-line-clamp: 2;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    -ms-text-overflow: ellipsis;
+    //elipsis end
+    margin-bottom: 5px;
+    text-decoration: none;
+  }
+
+  &_likes{
+    font-size: 12px;
+    &::before{
+      content: '♡';
+      margin-right: 5px;
+    }
+  }
+  &_tags{
+    display: flex;
+    margin-bottom: 5px;
+  }
+  &_tag{
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    color:rgba(0, 0, 0, 0.5);
+    padding: 0px 5px 0px 5px;
+    border-radius: 2px;
+    font-size: 12px;
+    margin-right: 10px;
+    max-width: 30px;
+    overflow-x: hidden;
+  }
+
+  &_text{
+    font-size: 12px;
+    line-height: 22px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 45px;
+    color:rgba(0, 0, 0, 0.75);
+    //elipsis start
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -ms-line-clamp: 2;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    -ms-text-overflow: ellipsis;
+    //elipsis end
+  }
+}
+// USER
+
+.user{
+  display: flex;
+  &_info{
+    margin-right: 15px;
+    text-align: right;
+  }
+  &_name{
+    color:rgba(0, 0, 0, 0.85);
+    font-size: 18px;
+  }
+  &_date{
+    font-size: 12px;
+  }
+  &_avatar{
+    height: 46px;
+    width: 46px;
+  }
+}
