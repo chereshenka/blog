@@ -15,7 +15,15 @@
     color: #000;
     text-decoration: none;
   }
+  &_enterButtons{
+    display: flex;
+    align-items: center;
+  }
   &_login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     font-size: 18px;
     width: 84px;
     height: 35px;
@@ -25,8 +33,33 @@
     margin-right: 20px;
     cursor: pointer;
   }
+  &_logged{
+    &_user{
+      display: flex;
+      align-items: center;
+      margin-right: 27px;
+      margin-left: 27px;   
+      &:hover{
+        cursor:pointer;
+      }
+    }
+    &_username{
+      font-size: 18px;
+      margin-right: 13px;
+    }
+    &_avatar{
+      border-radius: 50%;
+      height: 46px;
+      width: 46px;
+    }
+
+  }
 
   &_register{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     border: 1px solid #52C41A;
     color: #52c41a;
     font-size: 18px;
@@ -35,5 +68,32 @@
     width: 110px;
     background-color: transparent;
     cursor: pointer;
+  }
+  &_newarticle{    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: 1px solid #52C41A;
+    color: #52c41a;
+    font-size: 14px;
+    border-radius: 10px;
+    height: 31px;
+    width: 112px;
+    cursor: pointer;
+  }
+  &_logout{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 18px;
+    width: 109px;
+    height: 51px;
+    color: rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
+    text-decoration: none;
   }
 }

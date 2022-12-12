@@ -1,23 +1,24 @@
 .body{
   height: 140px;
-  width: 900px;
+  width: 100%;
   background-color: #fff;
   margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   padding: 15px 15px 20px 15px;
   box-sizing: border-box;
+  filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
 }
 
 // ARTICLE
 .article{
-  margin-right: 50px;
   &_header{
     display: flex;
     margin-bottom: 5px;
   }
   &_title{
     font-size: 20px;
+    // max-width: 600px;
     color:#1890FF;
     margin-right: 15px;
     //elipsis start
@@ -35,14 +36,7 @@
     //elipsis end
     margin-bottom: 5px;
     text-decoration: none;
-  }
-
-  &_likes{
-    font-size: 12px;
-    &::before{
-      content: '♡';
-      margin-right: 5px;
-    }
+    
   }
   &_tags{
     display: flex;
@@ -66,6 +60,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     height: 45px;
+    // width: 650px;
     color:rgba(0, 0, 0, 0.75);
     //elipsis start
     text-overflow: ellipsis;
@@ -79,6 +74,7 @@
     box-orient: vertical;
     -ms-text-overflow: ellipsis;
     //elipsis end
+    word-wrap: break-word;
   }
 }
 // USER
@@ -92,6 +88,8 @@
   &_name{
     color:rgba(0, 0, 0, 0.85);
     font-size: 18px;
+    word-wrap: break-word;
+    width: 100px;
   }
   &_date{
     font-size: 12px;
@@ -100,4 +98,12 @@
     height: 46px;
     width: 46px;
   }
+}
+.errors{
+  color: #f5222d;
+  font-size:12px;
+}
+.success{
+  color: #05c318;
+  font-size:12px;
 }

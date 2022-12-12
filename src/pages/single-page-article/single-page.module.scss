@@ -1,0 +1,168 @@
+.body{
+  width: 100%;
+  height:max-content;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 15px 20px 15px;
+  box-sizing:border-box;
+}
+
+// ARTICLE
+.article{
+  display: flex;  
+  justify-content: space-between;
+  margin-bottom: 30px;
+  &_content{
+  max-width: 80%;
+  margin-right: 50px;
+}
+  &_header{
+    display: flex;
+    margin-bottom: 5px;
+  }
+  &_title{
+    font-size: 20px;
+    color:#1890FF;
+    margin-right: 15px;
+   word-wrap: break-word;
+  width: 100%;
+  }
+
+  &_tags{
+    display: flex;
+    margin-bottom: 5px;
+  }
+  &_tag{
+    display: block;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    color:rgba(0, 0, 0, 0.5);
+    padding: 0px 5px 0px 5px;
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 20px;
+    margin-right: 10px;
+    height: 20px;
+    overflow: hidden;
+  }
+  &_text{
+    font-size: 12px;
+    line-height: 22px;
+    color:rgba(0, 0, 0, 0.75);
+    word-wrap: break-word;
+  }
+  &_body{
+    margin-left: 15px;
+  }
+}
+// USER
+
+.user{
+  display: flex;
+  flex-direction: column;
+  &_data{
+    display: flex;
+    margin-bottom: 30px;
+  }
+  &_info{
+    margin-right: 15px;
+    text-align: right;
+  }
+  &_name{
+    color:rgba(0, 0, 0, 0.85);
+    font-size: 18px;
+  }
+  &_date{
+    font-size: 12px;
+  }
+  &_avatar{
+    height: 46px;
+    width: 46px;
+  }
+  &_buttons{
+    display: flex;
+    justify-content: flex-end;
+  }
+  &_article{
+    &_delete{
+      border: 1px solid #F5222D;
+      color:#F5222D;  
+      padding: 6px 17px 6px 17px;
+      &:hover{
+        cursor:pointer;
+      }
+    }
+    &_edit{
+      border: 1px solid #52C41A;
+      color:#52C41A;
+      align-self: flex-end;
+      margin-left: 12px;  
+      padding: 6px 17px 6px 17px;
+      &:hover{
+        cursor:pointer;
+      }
+    }
+  }
+}
+
+button{
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+
+/* Auto layout */
+.delete{
+  &_modal{
+    display: flex;
+    position: absolute;
+    left:90px;
+    top:0px;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 16px 17px;
+    gap: 12px;
+    filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
+    width: 240px;
+    height: 104px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    justify-content: space-between;
+
+    &_header{
+      display: flex;
+    }
+   }
+   &_cancel{
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    padding: 1px 8px;
+    border-radius: 4px;
+    cursor:pointer;
+  }
+  &_confirm{
+    padding: 1px 8px;
+    background: #1890FF;
+    border-radius: 4px;
+    border: none;
+    color:#FFFFFF;
+    margin-left: 10px;
+    cursor:pointer;
+  } 
+}
+.delete_actions{
+  position: relative;
+}
+.alert{
+  margin-top: 5px;
+  align-self: flex-start;
+  margin-right: 10px;
+}
+.visible{
+  display: none;
+}

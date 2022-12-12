@@ -1,4 +1,8 @@
 .content{
+  min-width: 100%;
+  box-sizing: border-box;
+  padding-left: 250px;
+  padding-right: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;

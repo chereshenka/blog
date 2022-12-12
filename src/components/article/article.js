@@ -3,6 +3,7 @@ import styles from "./article.module.scss";
 import PropTypes from "prop-types";
 import { format, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
+import Follow from "../follow/follow";
 
 const Article = (props) => {
   const {
@@ -12,11 +13,11 @@ const Article = (props) => {
     tagList,
     // updatedAt,
     slug,
-    favoritesCount: likes,
+    favorited,
+    favoritesCount,
     description,
   } = props;
   const { username, image } = author;
-  console.log(image);
   return (
     <>
       <div key={slug} className={styles.body}>
@@ -29,7 +30,14 @@ const Article = (props) => {
             >
               {title}
             </Link>
-            <div className={styles.article_likes}>{likes}</div>
+            <div className={styles.article_likes}>
+              <Follow
+                count={favoritesCount}
+                id={slug}
+                like={favorited}
+                folow={props.author.following}
+              />
+            </div>
           </div>
           <div className={styles.article_tags}>
             {tagList
@@ -37,9 +45,11 @@ const Article = (props) => {
                   tag ? (
                     <div key={index}>
                       <span className={styles.article_tag}>
-                        {String(tag).length > 10
+                        {String(tag).includes(" ")
                           ? tag.split(" ").slice(0, 1)
-                          : tag}
+                          : String(tag).length > 10
+                          ? tag.split("").slice(0, 9)
+                          : String(tag)}
                       </span>
                     </div>
                   ) : null,
@@ -56,11 +66,7 @@ const Article = (props) => {
             </p>
           </div>
           <div>
-            <img
-              className={styles.user_avatar}
-              src={image}
-              alt="avatar"
-            />
+            <img className={styles.user_avatar} src={image} alt="avatar" />
           </div>
         </div>
       </div>
@@ -75,6 +81,7 @@ Article.propTypes = {
   createdAt: PropTypes.string,
   tagList: PropTypes.array,
   updatedAt: PropTypes.string,
+  favorited: PropTypes.bool,
   favoritesCount: PropTypes.number,
 };
 

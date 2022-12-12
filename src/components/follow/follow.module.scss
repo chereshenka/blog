@@ -1,0 +1,15 @@
+.follow{
+  font-size: 12px;
+  width: 40px;
+  border:none;
+  outline:none;
+  &:hover{
+    cursor:pointer
+  }
+  &_heart{
+    margin-right: 5px;
+  }
+}
+.active{
+  color:red;
+}

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Article from "../article/article";
+import Article from "../../components/article/article";
 import { useSelector, useDispatch } from "react-redux";
 import { Pagination, Spin, Alert } from "antd";
-import { fetchArticles } from "../../store/reducers/actions";
+import { fetchArticlesGlobal } from "../../store/reducers/actions";
 
 const ArticleList = () => {
   const { articles, articlesCount } = useSelector(
@@ -22,10 +22,9 @@ const ArticleList = () => {
     );
 
   const onChangePage = (e) => {
-    console.log(e);
     const offset = e === 1 ? 0 : e * 5 - 5;
     setPage(e);
-    dispatch(fetchArticles(offset));
+    dispatch(fetchArticlesGlobal(offset));
   };
 
   return (
