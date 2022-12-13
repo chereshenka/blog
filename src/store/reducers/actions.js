@@ -1,5 +1,5 @@
 import { articleSlice } from "./articles-reducer";
-import { userLogin } from "./user-state";
+import { userDataLogin } from "./user-state";
 import { singleArticleSlice } from "./single-article-reducer";
 
 const urlBase = new URL("https://blog.kata.academy/api/");
@@ -44,7 +44,7 @@ export const fetchSingle = (slug) => async (dispatch) => {
 };
 
 export const checkUserLogin = () => async (dispatch) => {
-  const user = new URL(`user`, urlBase);
+  const user = new URL("user", urlBase);
   try {
     await fetch(user, {
       headers: {
@@ -54,7 +54,7 @@ export const checkUserLogin = () => async (dispatch) => {
       .then((res) => res.json())
       .then((json) =>
         dispatch(
-          userLogin.actions.userLoggined({
+          userDataLogin.actions.userLoggined({
             isLoggedIn: true,
             user: json.user,
           }),
@@ -66,5 +66,5 @@ export const checkUserLogin = () => async (dispatch) => {
 };
 
 export const loginUser = (state) => (dispatch) => {
-  dispatch(userLogin.actions.userLoggined(state));
+  dispatch(userDataLogin.actions.userLoggined(state));
 };

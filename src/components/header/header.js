@@ -1,12 +1,14 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./header.module.scss";
-import avatar from "../../img/avatar.png";
 import { useDispatch, useSelector } from "react-redux/es";
+
+import avatar from "../../img/avatar.png";
 import { loginUser } from "../../store/reducers/actions";
 
+import styles from "./header.module.scss";
+
 const Header = () => {
-  const { isLoggedIn, user } = useSelector((state) => state.userLogin);
+  const { isLoggedIn, user } = useSelector((state) => state.userDataLogin);
   const dispatch = useDispatch();
   const push = useNavigate();
 

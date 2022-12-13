@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import styles from "./single-page.module.scss";
 import { useDispatch, useSelector } from "react-redux/es";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { format, parseISO } from "date-fns";
-import { fetchSingle } from "../../store/reducers/actions";
 import ReactMarkdown from "react-markdown";
-import { useNavigate } from "react-router-dom";
+
+import { fetchSingle, fetchArticlesGlobal } from "../../store/reducers/actions";
 import Follow from "../../components/follow/follow";
 import Vector from "../../img/Vector.svg";
-import { fetchArticlesGlobal } from "../../store/reducers/actions";
+
+import styles from "./single-page.module.scss";
 
 const SinglePage = () => {
   const { id } = useParams();
@@ -19,7 +19,7 @@ const SinglePage = () => {
   }, [id]);
 
   const { article } = useSelector((state) => state.singleReducer.article);
-  const { isLoggedIn, user } = useSelector((state) => state.userLogin);
+  const { isLoggedIn, user } = useSelector((state) => state.userDataLogin);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

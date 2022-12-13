@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import styles from "./follow.module.scss";
 import PropTypes from "prop-types";
-import { token } from "../../store/reducers/actions";
 import { useSelector } from "react-redux/es";
+
+import { token } from "../../store/reducers/actions";
+
+import styles from "./follow.module.scss";
 
 const Follow = (props) => {
   const { id, count, like } = props;
   const [heartState, setHeartState] = useState(like);
   const [heartCount, setHeartCount] = useState(count);
-  const { isLoggedIn } = useSelector((state) => state.userLogin);
+  const { isLoggedIn } = useSelector((state) => state.userDataLogin);
 
   const likeSubmit = async () => {
     const urlBase = new URL("https://blog.kata.academy/api/articles");

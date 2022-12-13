@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import styles from "./enter-page.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
 import { useDispatch, useSelector } from "react-redux/es";
+
 import { loginUser } from "../../store/reducers/actions";
+
+import styles from "./enter-page.module.scss";
 
 const EnterPage = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.userLogin);
+  const { isLoggedIn } = useSelector((state) => state.userDataLogin);
 
   const {
     register,

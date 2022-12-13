@@ -1,9 +1,11 @@
 import React from "react";
-import styles from "./article.module.scss";
 import PropTypes from "prop-types";
 import { format, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
+
 import Follow from "../follow/follow";
+
+import styles from "./article.module.scss";
 
 const Article = (props) => {
   const {

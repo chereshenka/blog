@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
-import ArticleList from "../../pages/article-list/article-list";
 import { useDispatch } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+
+import ArticleList from "../../pages/article-list/article-list";
 import {
   checkUserLogin,
   fetchArticlesGlobal,
+  token,
 } from "../../store/reducers/actions";
-import { Routes, Route } from "react-router-dom";
 import Layout from "../layout/layout";
 import SinglePage from "../../pages/single-page-article/single-page";
 import EnterPage from "../../pages/enter-page/enter-page";
@@ -14,7 +16,6 @@ import ProfilePage from "../../pages/profile-page/profile-page";
 import NewArticle from "../../pages/new-article/new-article";
 import RequireAuth from "../../hoc/RequireAuth";
 import ArticleChange from "../../pages/article-edit/article-edit";
-import { token } from "../../store/reducers/actions";
 
 export default function App() {
   const dispatch = useDispatch();

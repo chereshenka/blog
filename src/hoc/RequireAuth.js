@@ -5,7 +5,7 @@ import { useSelector } from "react-redux/es";
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
-  const auth = useSelector((state) => state.userLogin.isLoggedIn);
+  const auth = useSelector((state) => state.userDataLogin.isLoggedIn);
   if (!auth) {
     return <Navigate to="/sing-in" state={{ from: location }} />;
   }

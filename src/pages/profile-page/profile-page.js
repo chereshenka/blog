@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import styles from "./profile-page.module.scss";
-import { loginUser, token } from "../../store/reducers/actions";
 import { useDispatch } from "react-redux/es";
+
+import { loginUser, token } from "../../store/reducers/actions";
+
+import styles from "./profile-page.module.scss";
 
 const ProfilePage = () => {
   const {

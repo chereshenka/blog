@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Article from "../../components/article/article";
 import { useSelector, useDispatch } from "react-redux";
 import { Pagination, Spin, Alert } from "antd";
+
+import Article from "../../components/article/article";
 import { fetchArticlesGlobal } from "../../store/reducers/actions";
 
 const ArticleList = () => {

@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import ArticleEditor from "../../components/article-editor/article-editor";
 import { useDispatch, useSelector } from "react-redux/es";
 import { useParams } from "react-router";
+
+import ArticleEditor from "../../components/article-editor/article-editor";
 import { fetchSingle } from "../../store/reducers/actions";
 
 const ArticleChange = () => {
