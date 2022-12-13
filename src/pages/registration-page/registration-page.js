@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./registration-page.module.scss";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const RegistrationPage = () => {
   const {
@@ -11,7 +11,7 @@ const RegistrationPage = () => {
     reset,
     watch,
   } = useForm({ mode: "onBlur" });
-  const push = useNavigate();
+  // const push = useNavigate();
 
   const [registered, setRegisterMessage] = useState({
     message: "",
@@ -34,16 +34,23 @@ const RegistrationPage = () => {
           password: password,
         },
       }),
-    }).then((res) => {
-      return res.json();
-    });
-    console.log("registration res", res);
-    if (res.ok) {
+    })
+      .then((res) => {
+        if (res.status === 422) {
+          setRegisterMessage((state) => {
+            return { ...state, message: "invalid username", success: false };
+          });
+          return;
+        }
+        return res.json();
+      })
+      .then((json) => json.user);
+    if (res.user) {
+      localStorage.setItem("token", res.token);
       setRegisterMessage((state) => {
         return { ...state, message: "Registration successfull", success: true };
       });
       reset();
-      push("/");
     } else {
       setRegisterMessage((state) => {
         return { ...state, message: res.errors, success: false };
@@ -56,6 +63,9 @@ const RegistrationPage = () => {
     <>
       <div className={styles.registration_container}>
         <h3 className={styles.registration_title}>Create new account</h3>
+        <p className={registered.success ? styles.success : styles.errors}>
+          {registered.message ? registered.message : null}
+        </p>
         <div className={styles.registration_form}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <label>
@@ -97,7 +107,7 @@ const RegistrationPage = () => {
                     ? styles.input_error
                     : null
                 }
-                type="mail"
+                type="email"
                 {...register("email", {
                   required: "Input email.",
                   pattern: {

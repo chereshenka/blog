@@ -44,7 +44,6 @@ export const fetchSingle = (slug) => async (dispatch) => {
 };
 
 export const checkUserLogin = () => async (dispatch) => {
-  const token = localStorage.getItem("token");
   const user = new URL(`user`, urlBase);
   try {
     await fetch(user, {
@@ -53,7 +52,14 @@ export const checkUserLogin = () => async (dispatch) => {
       },
     })
       .then((res) => res.json())
-      .then((json) => dispatch(userLogin.actions.userLoggined(json.user)));
+      .then((json) =>
+        dispatch(
+          userLogin.actions.userLoggined({
+            isLoggedIn: true,
+            user: json.user,
+          }),
+        ),
+      );
   } catch (e) {
     throw new Error("Authorization failed");
   }

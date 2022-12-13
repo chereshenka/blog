@@ -10,8 +10,8 @@ export const userLogin = createSlice({
   initialState,
   reducers: {
     userLoggined(state, actions) {
-      state.isLoggedIn = !state.isLoggedIn;
-      state.user = actions.payload;
+      state.isLoggedIn = actions.payload.isLoggedIn;
+      state.user = actions.payload.user;
     },
   },
 });

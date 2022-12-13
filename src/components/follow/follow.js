@@ -25,7 +25,7 @@ const Follow = (props) => {
       .then((res) => res.json())
       .then((json) => {
         setHeartCount(() => json.article.favoritesCount);
-        setHeartState(json.article.favorited);
+        setHeartState(() => json.article.favorited);
       })
       .catch((e) => {
         throw new Error(e.message);

@@ -3,11 +3,13 @@ import styles from "./article-editor.module.scss";
 import { useForm } from "react-hook-form";
 import { useParams, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux/es";
+import { fetchArticlesGlobal } from "../../store/reducers/actions";
 
 const ArticleEditor = (props) => {
   const param = useParams();
   const location = useLocation();
-
+  const dispatch = useDispatch();
   const {
     register,
     formState: { errors },
@@ -86,6 +88,8 @@ const ArticleEditor = (props) => {
               success: true,
             };
           });
+
+          dispatch(fetchArticlesGlobal());
         }
       })
       .catch(() => {

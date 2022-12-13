@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./profile-page.module.scss";
-import { token } from "../../store/reducers/actions";
+import { loginUser, token } from "../../store/reducers/actions";
+import { useDispatch } from "react-redux/es";
 
 const ProfilePage = () => {
   const {
@@ -11,6 +12,7 @@ const ProfilePage = () => {
     reset,
   } = useForm({ mode: "onBlur" });
 
+  const dispatch = useDispatch();
   const [status, setStatusMessage] = useState({
     message: "",
     success: "",
@@ -19,7 +21,7 @@ const ProfilePage = () => {
   const onSubmit = async (data) => {
     const urlBase = new URL("https://blog.kata.academy/api/user");
     const { username, email, password, image } = data;
-    const res = await fetch(urlBase, {
+    await fetch(urlBase, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -34,22 +36,34 @@ const ProfilePage = () => {
           image: image,
         },
       }),
-    });
-
-    if (res.ok) {
-      setStatusMessage((state) => {
-        return {
-          ...state,
-          message: "Profile changed succesful",
-          success: true,
-        };
+    })
+      .then((response) => {
+        if (response.status === 422) {
+          setStatusMessage((state) => {
+            return { ...state, message: "invalid username", success: false };
+          });
+          return;
+        }
+        if (response.ok) {
+          setStatusMessage((state) => {
+            return {
+              ...state,
+              message: "Profile changed succesful",
+              success: true,
+            };
+          });
+          reset();
+        }
+        return response.json();
+      })
+      .then((json) => {
+        localStorage.setItem("token", json.user.token);
+        dispatch(loginUser({ isLoggedIn: true, user: json.user }));
+        reset();
+      })
+      .catch((e) => {
+        throw new Error(e.message);
       });
-      reset();
-    } else {
-      setStatusMessage((state) => {
-        return { ...state, message: res.errors, success: false };
-      });
-    }
   };
 
   return (
@@ -97,7 +111,7 @@ const ProfilePage = () => {
               <p className={styles.profile_label}>Email adress</p>
               <input
                 className={styles.profile_input_email}
-                type="mail"
+                type="email"
                 {...register("email", {
                   required: "Input email.",
                   pattern: {

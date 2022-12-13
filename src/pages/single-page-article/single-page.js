@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import { useNavigate } from "react-router-dom";
 import Follow from "../../components/follow/follow";
 import Vector from "../../img/Vector.svg";
+import { fetchArticlesGlobal } from "../../store/reducers/actions";
 
 const SinglePage = () => {
   const { id } = useParams();
@@ -40,6 +41,7 @@ const SinglePage = () => {
     })
       .then((data) => {
         if (data.ok) {
+          dispatch(fetchArticlesGlobal());
           push("/");
         }
       })
@@ -157,9 +159,7 @@ const SinglePage = () => {
             </div>
           </div>
           <div className={styles.article_body}>
-            <ReactMarkdown>
-              {article.body}
-            </ReactMarkdown>
+            <ReactMarkdown>{article.body}</ReactMarkdown>
           </div>
         </div>
       ) : (

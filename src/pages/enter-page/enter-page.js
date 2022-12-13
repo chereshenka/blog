@@ -37,11 +37,37 @@ const EnterPage = () => {
             },
           }),
         })
-          .then((res) => res.json())
+          .then((res) => {
+            if (res.status === 422) {
+              setError((state) => {
+                return {
+                  ...state,
+                  message: "email or password is invalid",
+                  state: false,
+                };
+              });
+              return;
+            }
+            if (res.status === 402) {
+              setError((state) => {
+                return {
+                  ...state,
+                  message: "Already logged in.",
+                  state: false,
+                };
+              });
+            }
+            return res.json();
+          })
           .then((json) => {
             if (!localStorage.getItem("token"))
               localStorage.setItem("token", json.user.token);
-            dispatch(loginUser(json.user));
+            dispatch(
+              loginUser({
+                isLoggedIn: true,
+                user: json.user,
+              }),
+            );
           })
           .then(push("/"))
           .catch((err) => {
@@ -50,10 +76,6 @@ const EnterPage = () => {
       } catch (e) {
         throw new Error(e.message);
       }
-    } else {
-      setError((state) => {
-        return { ...state, message: "Alreade logged in.", state: false };
-      });
     }
   };
 
@@ -75,7 +97,7 @@ const EnterPage = () => {
                     ? styles.input_error
                     : null
                 }
-                type="mail"
+                type="email"
                 {...register("email", {
                   required: "Input email.",
                   pattern: {

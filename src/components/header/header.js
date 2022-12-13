@@ -34,7 +34,14 @@ const Header = () => {
               </div>
               <Link
                 to="/"
-                onClick={() => dispatch(loginUser({}))}
+                onClick={() =>
+                  dispatch(
+                    loginUser({
+                      isLoggedIn: false,
+                      user: {},
+                    }),
+                  )
+                }
                 className={styles.header_logout}
               >
                 Log Out
