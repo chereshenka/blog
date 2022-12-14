@@ -19,7 +19,7 @@ const SinglePage = () => {
   }, [id]);
 
   const { article } = useSelector((state) => state.singleReducer.article);
-  const { isLoggedIn, user } = useSelector((state) => state.userDataLogin);
+  const { isLoggedIn, user } = useSelector((state) => state.loginReducer);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

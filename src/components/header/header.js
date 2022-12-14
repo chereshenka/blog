@@ -8,7 +8,9 @@ import { loginUser } from "../../store/reducers/actions";
 import styles from "./header.module.scss";
 
 const Header = () => {
-  const { isLoggedIn, user } = useSelector((state) => state.userDataLogin);
+  const { isLoggedIn, user } = useSelector((state) => {
+    return state.loginReducer;
+  });
   const dispatch = useDispatch();
   const push = useNavigate();
 

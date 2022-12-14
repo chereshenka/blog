@@ -10,7 +10,7 @@ const Follow = (props) => {
   const { id, count, like } = props;
   const [heartState, setHeartState] = useState(like);
   const [heartCount, setHeartCount] = useState(count);
-  const { isLoggedIn } = useSelector((state) => state.userDataLogin);
+  const { isLoggedIn } = useSelector((state) => state.loginReducer);
 
   const likeSubmit = async () => {
     const urlBase = new URL("https://blog.kata.academy/api/articles");

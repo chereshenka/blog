@@ -9,7 +9,7 @@ import styles from "./enter-page.module.scss";
 
 const EnterPage = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.userDataLogin);
+  const { isLoggedIn } = useSelector((state) => state.loginReducer);
 
   const {
     register,
