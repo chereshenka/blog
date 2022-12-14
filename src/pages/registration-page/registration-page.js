@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { loginUser } from "../../store/reducers/actions";
 
 import styles from "./registration-page.module.scss";
-
 const RegistrationPage = () => {
   const {
     register,
@@ -17,6 +16,8 @@ const RegistrationPage = () => {
   } = useForm({
     mode: "onBlur",
   });
+  const push = useNavigate();
+
   const dispatch = useDispatch();
   const [registered, setRegisterMessage] = useState({
     message: "",
@@ -79,6 +80,7 @@ const RegistrationPage = () => {
       setUsernameError("");
       setEmailError("");
       reset();
+      push("/");
     } else {
       setRegisterMessage((state) => {
         return { ...state, message: "Wrong data input", success: false };

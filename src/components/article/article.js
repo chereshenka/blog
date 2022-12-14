@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { format, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
 
+import avatar from "../../img/avatar.png";
 import Follow from "../follow/follow";
 
 import styles from "./article.module.scss";
@@ -13,13 +14,14 @@ const Article = (props) => {
     createdAt,
     title,
     tagList,
-    // updatedAt,
     slug,
     favorited,
     favoritesCount,
     description,
   } = props;
   const { username, image } = author;
+
+  const [imageError, setImageError] = useState(false);
   return (
     <>
       <div key={slug} className={styles.body}>
@@ -58,7 +60,9 @@ const Article = (props) => {
                 )
               : null}
           </div>
-          <div className={styles.article_text}>{description}</div>
+          <div className={styles.article_text}>
+            <p>{description}</p>
+          </div>
         </div>
         <div className={styles.user}>
           <div className={styles.user_info}>
@@ -68,7 +72,12 @@ const Article = (props) => {
             </p>
           </div>
           <div>
-            <img className={styles.user_avatar} src={image} alt="avatar" />
+            <img
+              onError={() => setImageError(true)}
+              className={styles.user_avatar}
+              src={imageError ? avatar : image}
+              alt="avatar"
+            />
           </div>
         </div>
       </div>

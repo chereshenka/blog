@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 import ReactMarkdown from "react-markdown";
 
+import avatar from "../../img/avatar.png";
 import { fetchSingle, fetchArticlesGlobal } from "../../store/reducers/actions";
 import Follow from "../../components/follow/follow";
 import Vector from "../../img/Vector.svg";
@@ -26,6 +27,7 @@ const SinglePage = () => {
   const editArticle = () => {
     push(`/articles/${id}/edit`);
   };
+  const [imageError, setImageError] = useState(false);
 
   const deleteArticle = async () => {
     const urlBase = new URL("https://blog.kata.academy/api/articles/");
@@ -100,8 +102,9 @@ const SinglePage = () => {
                 </div>
                 <div>
                   <img
+                    onError={() => setImageError(true)}
                     className={styles.user_avatar}
-                    src={article.author.image}
+                    src={imageError ? avatar : article.author.image}
                     alt="avatar"
                   />
                 </div>

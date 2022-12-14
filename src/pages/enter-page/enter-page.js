@@ -25,7 +25,7 @@ const EnterPage = () => {
       const urlBase = new URL("https://blog.kata.academy/api/users/login");
       const { email, password } = data;
       try {
-        await fetch(urlBase, {
+        const response = await fetch(urlBase, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -37,43 +37,39 @@ const EnterPage = () => {
               password: password,
             },
           }),
-        })
-          .then((res) => {
-            if (res.status === 422) {
-              setError((state) => {
-                return {
-                  ...state,
-                  message: "email or password is invalid",
-                  state: false,
-                };
-              });
-              return;
-            }
-            if (res.status === 402) {
-              setError((state) => {
-                return {
-                  ...state,
-                  message: "Already logged in.",
-                  state: false,
-                };
-              });
-            }
-            return res.json();
-          })
-          .then((json) => {
-            if (!localStorage.getItem("token"))
-              localStorage.setItem("token", json.user.token);
-            dispatch(
-              loginUser({
-                isLoggedIn: true,
-                user: json.user,
-              }),
-            );
-          })
-          .then(push("/"))
-          .catch((err) => {
-            throw new Error(err);
+        });
+
+        if (response.status === 422) {
+          setError((state) => {
+            return {
+              ...state,
+              message: "email or password is invalid",
+              state: false,
+            };
           });
+          return;
+        }
+        if (response.status === 402) {
+          setError((state) => {
+            return {
+              ...state,
+              message: "Already logged in.",
+              state: false,
+            };
+          });
+        }
+        if (response.ok) {
+          const data = await response.json();
+          if (!localStorage.getItem("token"))
+            localStorage.setItem("token", data.user.token);
+          dispatch(
+            loginUser({
+              isLoggedIn: true,
+              user: data.user,
+            }),
+          );
+          push("/");
+        }
       } catch (e) {
         throw new Error(e.message);
       }
