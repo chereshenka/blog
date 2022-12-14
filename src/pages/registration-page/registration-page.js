@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+
+import { loginUser } from "../../store/reducers/actions";
 
 import styles from "./registration-page.module.scss";
 
@@ -11,13 +14,16 @@ const RegistrationPage = () => {
     handleSubmit,
     reset,
     watch,
-  } = useForm({ mode: "onBlur" });
-  // const push = useNavigate();
-
+  } = useForm({
+    mode: "onBlur",
+  });
+  const dispatch = useDispatch();
   const [registered, setRegisterMessage] = useState({
     message: "",
     success: "",
   });
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const onSubmit = async (data) => {
     const urlBase = new URL("https://blog.kata.academy/api/users");
@@ -38,23 +44,44 @@ const RegistrationPage = () => {
     })
       .then((res) => {
         if (res.status === 422) {
+          const error = res.json();
           setRegisterMessage((state) => {
-            return { ...state, message: "invalid username", success: false };
+            return {
+              ...state,
+              message: "",
+              success: false,
+            };
           });
-          return;
+          setUsernameError(error.errors.username || "");
+          setEmailError(error.errors.email || "");
+        } else {
+          return res.json();
         }
-        return res.json();
       })
-      .then((json) => json.user);
-    if (res.user) {
-      localStorage.setItem("token", res.token);
-      setRegisterMessage((state) => {
-        return { ...state, message: "Registration successfull", success: true };
+      .then((json) => {
+        return json.user;
       });
+    if (res.username) {
+      localStorage.setItem("token", res.token);
+      dispatch(
+        loginUser({
+          isLoggedIn: true,
+          user: res,
+        }),
+      );
+      setRegisterMessage((state) => {
+        return {
+          ...state,
+          message: "Registration successfull",
+          success: true,
+        };
+      });
+      setUsernameError("");
+      setEmailError("");
       reset();
     } else {
       setRegisterMessage((state) => {
-        return { ...state, message: res.errors, success: false };
+        return { ...state, message: "Wrong data input", success: false };
       });
     }
   };
@@ -65,15 +92,22 @@ const RegistrationPage = () => {
       <div className={styles.registration_container}>
         <h3 className={styles.registration_title}>Create new account</h3>
         <p className={registered.success ? styles.success : styles.errors}>
-          {registered.message ? registered.message : null}
+          {registered.message}
         </p>
         <div className={styles.registration_form}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form
+            onChange={() =>
+              setRegisterMessage((state) => {
+                return { ...state, message: "" };
+              })
+            }
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <label>
               <p className={styles.registration_header}>Username</p>
               <input
                 className={
-                  styles.registration_input_name + "" + errors?.username &&
+                  styles.registration_input_name + " " + errors?.username &&
                   errors?.username?.message
                     ? styles.input_error
                     : null
@@ -90,11 +124,13 @@ const RegistrationPage = () => {
                   },
                 })}
                 placeholder="Username"
+                onChange={() => setUsernameError("")}
               />
               <span className={styles.errors}>
                 {errors?.username && errors?.username?.message}
-                {registered.success === false && registered.message.username
-                  ? registered.message.username
+
+                {registered.success === false && usernameError
+                  ? usernameError
                   : null}
               </span>
             </label>
@@ -117,12 +153,11 @@ const RegistrationPage = () => {
                   },
                 })}
                 placeholder="Email adress"
+                onChange={() => setEmailError("")}
               />
               <span className={styles.errors}>
                 {errors?.email && errors?.email?.message}
-                {registered.success === false && registered.message.email
-                  ? registered.message.email
-                  : null}
+                {registered.success === false && emailError ? emailError : null}
               </span>
             </label>
 

@@ -19,6 +19,8 @@ const ProfilePage = () => {
     message: "",
     success: "",
   });
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const onSubmit = async (data) => {
     const urlBase = new URL("https://blog.kata.academy/api/user");
@@ -39,14 +41,20 @@ const ProfilePage = () => {
         },
       }),
     })
-      .then((response) => {
-        if (response.status === 422) {
+      .then((res) => {
+        if (res.status === 422) {
+          const error = res.json();
           setStatusMessage((state) => {
-            return { ...state, message: "invalid username", success: false };
+            return {
+              ...state,
+              message: "",
+              success: false,
+            };
           });
-          return;
+          setUsernameError(error.errors.username || "");
+          setEmailError(error.errors.email || "");
         }
-        if (response.ok) {
+        if (res.ok) {
           setStatusMessage((state) => {
             return {
               ...state,
@@ -56,7 +64,7 @@ const ProfilePage = () => {
           });
           reset();
         }
-        return response.json();
+        return res.json();
       })
       .then((json) => {
         localStorage.setItem("token", json.user.token);
@@ -104,8 +112,8 @@ const ProfilePage = () => {
               />
               <span className={styles.errors}>
                 {errors?.username && errors?.username?.message}
-                {status.success === false && status.message.username
-                  ? status.message.username
+                {status.success === false && usernameError
+                  ? usernameError
                   : null}
               </span>
             </label>
@@ -137,6 +145,7 @@ const ProfilePage = () => {
                 type="password"
                 required
                 placeholder="New password"
+                defaultValue=""
               />
             </label>
             <label>
@@ -153,12 +162,11 @@ const ProfilePage = () => {
                   },
                 })}
                 placeholder="Image Url"
+                defaultValue=""
               />
               <span className={styles.errors}>
                 {errors?.image && errors?.image?.message}
-                {status.success === false && status.message.image
-                  ? status.message.image
-                  : null}
+                {status.success === false && emailError ? emailError : null}
               </span>
             </label>
             <button type="submit" className={styles.profile_submit}>

@@ -38,14 +38,15 @@ const Header = () => {
               </div>
               <Link
                 to="/"
-                onClick={() =>
+                onClick={() => {
                   dispatch(
                     loginUser({
                       isLoggedIn: false,
                       user: {},
                     }),
-                  )
-                }
+                  );
+                  localStorage.removeItem("token");
+                }}
                 className={styles.header_logout}
               >
                 Log Out
