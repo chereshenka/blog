@@ -14,7 +14,7 @@
   justify-content: space-between;
   margin-bottom: 30px;
   &_content{
-  max-width: 80%;
+  max-width: 600px;
   margin-right: 50px;
 }
   &_header{
@@ -50,9 +50,10 @@
     font-size: 12px;
     line-height: 22px;
     color:rgba(0, 0, 0, 0.75);
-    word-wrap: break-word;
+    word-break: break-all;
   }
   &_body{
+    word-break: break-all;
     margin-left: 15px;
   }
 }
