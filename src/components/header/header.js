@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es";
 
 import avatar from "../../img/avatar.png";
-import { loginUser } from "../../store/reducers/actions";
+import { fetchArticlesGlobal, loginUser } from "../../store/reducers/actions";
 
 import styles from "./header.module.scss";
 
@@ -17,7 +17,11 @@ const Header = () => {
   return (
     <>
       <div className={styles.header}>
-        <Link to="/" className={styles.header_title}>
+        <Link
+          to="/"
+          className={styles.header_title}
+          onClick={() => dispatch(fetchArticlesGlobal())}
+        >
           Realworld Blog
         </Link>
         <div className={styles.header_enterButtons}>
