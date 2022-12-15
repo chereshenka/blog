@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux/es";
 import { useParams, useNavigate } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 import ReactMarkdown from "react-markdown";
+import { Alert, Spin } from "antd";
 
 import avatar from "../../img/avatar.png";
 import { fetchSingle, fetchArticlesGlobal } from "../../store/reducers/actions";
@@ -20,6 +21,7 @@ const SinglePage = () => {
   }, [id]);
 
   const { article } = useSelector((state) => state.singleReducer.article);
+  const { isLoading, error } = useSelector((state) => state.singleReducer);
   const { isLoggedIn, user } = useSelector((state) => state.loginReducer);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,7 +56,7 @@ const SinglePage = () => {
 
   return (
     <>
-      {article ? (
+      {article && !isLoading && !error ? (
         <div key={article.slug} className={styles.body}>
           <div className={styles.article}>
             <div className={styles.article_content}>
@@ -165,8 +167,14 @@ const SinglePage = () => {
             <ReactMarkdown>{article.body}</ReactMarkdown>
           </div>
         </div>
+      ) : isLoading && !error ? (
+        <Spin />
       ) : (
-        "Thas Article doesn't exist anymore"
+        <Alert
+          message="Something went wrong, try another request"
+          type="error"
+          showIcon
+        />
       )}
     </>
   );

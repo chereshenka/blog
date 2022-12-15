@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
+import { Spin } from "antd";
 
 import ArticleList from "../../pages/article-list/article-list";
 import {
@@ -29,12 +30,13 @@ export default function App() {
       dispatch(checkUserLogin());
     }
   };
+  const full = useSelector((state) => state.articleReducer.isLoading);
 
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<ArticleList />} />
+          <Route index element={full ? <Spin /> : <ArticleList />} />
           <Route path="/articles/:id" element={<SinglePage />} />
           <Route path="/sing-in" element={<EnterPage />} />
           <Route path="/sing-up" element={<RegistrationPage />} />
