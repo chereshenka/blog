@@ -20,7 +20,7 @@ const Header = () => {
         <Link
           to="/"
           className={styles.header_title}
-          onClick={() => dispatch(fetchArticlesGlobal())}
+          onClick={() => dispatch(fetchArticlesGlobal(1))}
         >
           Realworld Blog
         </Link>

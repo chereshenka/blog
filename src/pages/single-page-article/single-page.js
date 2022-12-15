@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux/es";
 import { useParams, useNavigate } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Alert, Spin } from "antd";
 
 import avatar from "../../img/avatar.png";
@@ -164,7 +165,9 @@ const SinglePage = () => {
             </div>
           </div>
           <div className={styles.article_body}>
-            <ReactMarkdown>{article.body}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {article.body}
+            </ReactMarkdown>
           </div>
         </div>
       ) : isLoading && !error ? (
