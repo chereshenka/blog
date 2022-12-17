@@ -28,8 +28,6 @@ const RegistrationPage = () => {
   const [emailError, setEmailError] = useState("");
 
   const onSubmit = async (data) => {
-    console.log(data);
-    console.log(errors);
     const urlBase = new URL("https://blog.kata.academy/api/users");
     const { username, email, password } = data;
     const res = await fetch(urlBase, {
