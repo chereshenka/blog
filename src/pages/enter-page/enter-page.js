@@ -89,10 +89,13 @@ const EnterPage = () => {
               <p className={styles.enter_header}>Email adress</p>
               <input
                 className={
-                  styles.enter_input_email + "" + errors?.email &&
-                  errors?.email?.message
+                  styles.enter_input_email +
+                  " " +
+                  styles.input_size +
+                  " " +
+                  (errors?.email && errors?.email?.message
                     ? styles.input_error
-                    : null
+                    : null)
                 }
                 type="email"
                 {...register("email", {
@@ -113,10 +116,13 @@ const EnterPage = () => {
               <p className={styles.enter_header}>Password</p>
               <input
                 className={
-                  styles.enter_input_password + "" + errors?.password &&
-                  errors?.password?.message
+                  styles.enter_input_password +
+                  " " +
+                  styles.input_size +
+                  " " +
+                  (errors?.password && errors?.password?.message
                     ? styles.input_error
-                    : null
+                    : null)
                 }
                 {...register("password", {
                   required: "Input password.",

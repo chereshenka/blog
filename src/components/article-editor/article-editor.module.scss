@@ -52,6 +52,11 @@
     display: flex;
     flex-direction: column;
   }
+  &_tag{
+  padding-left: 10px;
+  height: 40px;
+  box-sizing: border-box;
+  }
 
   &_tagItem{
     display: flex;
@@ -76,7 +81,6 @@
     }
   }
 
-
 }
 .input_error{
   border: 1px solid #F5222D;
@@ -87,17 +91,13 @@ form{
   display: flex;
   flex-direction: column;
 }
-input{
-  height: 40px;
-  padding-left: 10px;
-  box-sizing: border-box;
-}
 input[type='button']{
   box-sizing: border-box;
   width: 140px;
   background-color: #fff;
   border-radius: 4px;
   margin-left: 20px;
+  height: 40px;
 }
 .errors{
   color: #f5222d;
@@ -121,4 +121,10 @@ textarea{
   box-sizing: border-box;
   resize: none;
   word-wrap: break-word;
+}
+.input_size{
+  width: 100%;
+  height: 40px;
+  padding-left: 10px;
+  box-sizing: border-box;
 }

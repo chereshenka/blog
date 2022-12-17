@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es";
 
@@ -13,6 +13,7 @@ const Header = () => {
   });
   const dispatch = useDispatch();
   const push = useNavigate();
+  const [imageError, setImageError] = useState(false);
 
   return (
     <>
@@ -20,7 +21,7 @@ const Header = () => {
         <Link
           to="/"
           className={styles.header_title}
-          onClick={() => dispatch(fetchArticlesGlobal(1))}
+          onClick={() => dispatch(fetchArticlesGlobal())}
         >
           Realworld Blog
         </Link>
@@ -36,8 +37,9 @@ const Header = () => {
               >
                 <p className={styles.header_logged_username}>{user.username}</p>
                 <img
+                  onError={() => setImageError(true)}
+                  src={imageError ? avatar : user.image}
                   className={styles.header_logged_avatar}
-                  src={user.image || avatar}
                 />
               </div>
               <Link

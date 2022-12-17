@@ -1,3 +1,32 @@
+.input_error{
+  border: 1px solid #F5222D;
+  border-radius: 4px;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+}
+.inputSize{
+  width: 100%;
+  height: 40px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+.errors{
+  color: #f5222d;
+  font-size:12px;
+}
+.success{
+  color: #05c318;
+  font-size:12px;
+}
+label{
+  margin-bottom: 35px;
+  box-sizing: border-box;
+  height: 60px;
+}
+
 .registration{
   &_container{
     width: 380px;
@@ -29,6 +58,9 @@
     color:#595959;
     font-family: 'Arial';
     font-size: 14px;
+    &_message{
+      font-size: 14px;
+    }
     &_box{
       margin-top: 3px;
       margin-right: 8px;
@@ -63,37 +95,9 @@
       color: #1890FF;
       text-decoration: none;
     }
-  }
   &_message{
     height: 20px;
     justify-content: center;
   }
 }
-.input_error{
-  border: 1px solid #F5222D;
-  border-radius: 4px;
-}
-
-form{
-  display: flex;
-  flex-direction: column;
-}
-input{
-  width: 100%;
-  height: 40px;
-  padding-left: 10px;
-  box-sizing: border-box;
-}
-.errors{
-  color: #f5222d;
-  font-size:12px;
-}
-.success{
-  color: #05c318;
-  font-size:12px;
-}
-label{
-  margin-bottom: 35px;
-  box-sizing: border-box;
-  height: 60px;
 }

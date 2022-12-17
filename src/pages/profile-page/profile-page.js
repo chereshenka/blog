@@ -41,9 +41,9 @@ const ProfilePage = () => {
         },
       }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (res.status === 422) {
-          const error = res.json();
+          const error = await res.json();
           setStatusMessage((state) => {
             return {
               ...state,
@@ -95,7 +95,7 @@ const ProfilePage = () => {
             <label>
               <p className={styles.profile_label}>Username</p>
               <input
-                className={styles.profile_input_name}
+                className={styles.profile_input_name + " " + styles.input_size}
                 type="text"
                 {...register("username", {
                   required: "Input username.",
@@ -120,7 +120,7 @@ const ProfilePage = () => {
             <label>
               <p className={styles.profile_label}>Email adress</p>
               <input
-                className={styles.profile_input_email}
+                className={styles.profile_input_email + " " + styles.input_size}
                 type="email"
                 {...register("email", {
                   required: "Input email.",
@@ -141,7 +141,9 @@ const ProfilePage = () => {
             <label>
               <p className={styles.profile_label}>New Password</p>
               <input
-                className={styles.profile_input_password}
+                className={
+                  styles.profile_input_password + " " + styles.input_size
+                }
                 type="password"
                 required
                 placeholder="New password"
@@ -151,7 +153,7 @@ const ProfilePage = () => {
             <label>
               <p className={styles.profile_label}>Avatar Image (url)</p>
               <input
-                className={styles.profile_input_image}
+                className={styles.profile_input_image + " " + styles.input_size}
                 type="text"
                 {...register("image", {
                   required: "Input image url.",

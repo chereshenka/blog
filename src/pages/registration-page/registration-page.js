@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../store/reducers/actions";
 
 import styles from "./registration-page.module.scss";
+
 const RegistrationPage = () => {
   const {
     register,
@@ -27,6 +28,8 @@ const RegistrationPage = () => {
   const [emailError, setEmailError] = useState("");
 
   const onSubmit = async (data) => {
+    console.log(data);
+    console.log(errors);
     const urlBase = new URL("https://blog.kata.academy/api/users");
     const { username, email, password } = data;
     const res = await fetch(urlBase, {
@@ -43,9 +46,9 @@ const RegistrationPage = () => {
         },
       }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (res.status === 422) {
-          const error = res.json();
+          const error = await res.json();
           setRegisterMessage((state) => {
             return {
               ...state,
@@ -109,10 +112,13 @@ const RegistrationPage = () => {
               <p className={styles.registration_header}>Username</p>
               <input
                 className={
-                  styles.registration_input_name + " " + errors?.username &&
-                  errors?.username?.message
+                  styles.inputSize +
+                  " " +
+                  styles.registration_input_name +
+                  " " +
+                  (errors?.username && errors?.username?.message
                     ? styles.input_error
-                    : null
+                    : null)
                 }
                 {...register("username", {
                   required: "Input username.",
@@ -141,10 +147,13 @@ const RegistrationPage = () => {
               <p className={styles.registration_header}>Email adress</p>
               <input
                 className={
-                  styles.registration_input_email + "" + errors?.email &&
-                  errors?.email?.message
+                  styles.inputSize +
+                  " " +
+                  styles.registration_input_email +
+                  " " +
+                  (errors?.email && errors?.email?.message
                     ? styles.input_error
-                    : null
+                    : null)
                 }
                 type="email"
                 {...register("email", {
@@ -167,10 +176,13 @@ const RegistrationPage = () => {
               <p className={styles.registration_header}>Password</p>
               <input
                 className={
-                  styles.registration_input_password + "" + errors?.password &&
-                  errors?.password?.message
+                  styles.registration_input_password +
+                  " " +
+                  styles.inputSize +
+                  " " +
+                  (errors?.password && errors?.password?.message
                     ? styles.input_error
-                    : null
+                    : null)
                 }
                 {...register("password", {
                   required: "Input password.",
@@ -195,10 +207,13 @@ const RegistrationPage = () => {
               <p className={styles.registration_header}>Repeat Password</p>
               <input
                 className={
-                  styles.registration_input_password + "" + errors?.password &&
-                  errors?.password?.message
+                  styles.registration_input_password +
+                  " " +
+                  styles.inputSize +
+                  " " +
+                  (errors?.password && errors?.password?.message
                     ? styles.input_error
-                    : null
+                    : null)
                 }
                 {...register("repeat", {
                   required: "Repeat password.",
@@ -224,17 +239,35 @@ const RegistrationPage = () => {
             <label className={styles.registration_terms}>
               <input
                 type="checkbox"
-                className={styles.registration_terms_box}
+                id="checkbox"
+                className={
+                  styles.registration_terms_box +
+                  " " +
+                  (errors?.checkbox && errors?.checkbox?.message
+                    ? styles.input_error
+                    : null)
+                }
                 {...register("checkbox", {
-                  required: true,
+                  required: "should be checked befor submitting",
                 })}
               />
-              I agree to the processing of my personal information
+              <p
+                className={
+                  styles.registration_terms_message +
+                  " " +
+                  (errors?.checkbox && errors?.checkbox?.message
+                    ? styles.errors
+                    : "")
+                }
+              >
+                I agree to the processing of my personal information
+                {}
+              </p>
             </label>
 
             <input
               type="submit"
-              className={styles.registration_submit}
+              className={styles.registration_submit + " " + styles.input_size}
               value="Create"
             />
           </form>

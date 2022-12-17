@@ -39,10 +39,15 @@ const ArticleEditor = (props) => {
 
   const changeTagValue = (e) => {
     const id = e.target.id;
-    addInput((state) => {
-      state[id] = e.target.value;
-      return [...state];
+    const value = e.target.value;
+    const arr = input.map((tag, index) => {
+      if (index === Number(id)) {
+        return value;
+      } else {
+        return tag;
+      }
     });
+    addInput(arr);
   };
 
   const onSubmit = async (data) => {
@@ -120,10 +125,11 @@ const ArticleEditor = (props) => {
             <p className={styles.new_article_header}>Title</p>
             <input
               className={
-                styles.new_article_input_name + "" + errors?.title &&
-                errors?.title?.message
+                styles.input_size +
+                " " +
+                (errors?.title && errors?.title?.message
                   ? styles.input_error
-                  : null
+                  : null)
               }
               {...register("title", {
                 required: "Input title, its important.",
@@ -144,10 +150,11 @@ const ArticleEditor = (props) => {
             <p className={styles.new_article_header}>Short description</p>
             <input
               className={
-                styles.new_article_input_email + "" + errors?.description &&
-                errors?.description?.message
+                styles.input_size +
+                " " +
+                (errors?.description && errors?.description?.message
                   ? styles.input_error
-                  : null
+                  : null)
               }
               type="text"
               {...register("description", {
@@ -173,10 +180,11 @@ const ArticleEditor = (props) => {
             <p className={styles.new_article_header}>Text</p>
             <textarea
               className={
-                styles.new_article_input_text + "" + errors?.body &&
-                errors?.body?.message
+                styles.new_article_input_text +
+                " " +
+                (errors?.body && errors?.body?.message
                   ? styles.input_error
-                  : null
+                  : null)
               }
               {...register("body", {
                 required: "Input your article text.",
@@ -207,7 +215,7 @@ const ArticleEditor = (props) => {
                       id={index}
                       className={styles.new_article_tag}
                       placeholder="tag"
-                      value={tag}
+                      defaultValue={tag}
                       onChange={(e) => changeTagValue(e)}
                     />
                     <input

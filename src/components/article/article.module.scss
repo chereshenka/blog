@@ -1,6 +1,6 @@
 .body{
   height: fit-content;
-  min-width: 900px;
+  width: 900px;
   background-color: #fff;
   margin-bottom: 30px;
   display: flex;
@@ -40,6 +40,7 @@
   }
   &_tags{
     display: flex;
+    width:600px;
     flex-wrap:wrap;
     margin-bottom: 5px;
   }
