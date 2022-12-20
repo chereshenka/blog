@@ -90,7 +90,7 @@ const ArticleEditor = (props) => {
         className={styles.new_article_tag}
         placeholder="tag"
         defaultValue={tag}
-        onChange={(e) => changeTagValue(e)}
+        onBlur={(e) => changeTagValue(e)}
       />
       <input
         type="button"
