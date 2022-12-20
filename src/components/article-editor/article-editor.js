@@ -38,6 +38,7 @@ const ArticleEditor = (props) => {
   const [status, setStatusMessage] = useState({ message: "", success: null });
 
   const changeTagValue = (e) => {
+    console.log(e.value);
     const id = e.target.id;
     const value = e.target.value;
     const arr = input.map((tag, index) => (index === Number(id) ? value : tag));
