@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux/es";
 
 import { fetchArticlesGlobal } from "../../store/reducers/actions";
+import { fetchEditDeleteArticle } from "../../fetch-server/article-edit-delete";
 
 import styles from "./article-editor.module.scss";
 
@@ -29,10 +29,10 @@ const ArticleEditor = (props) => {
   };
 
   const onDeleteTag = (index) => {
-    addInput((state) => {
-      const arr = [...state.slice(0, index), ...state.slice(index + 1)];
-      return arr;
+    const arr = input.filter((tag, id) => {
+      return id !== Number(index) ? tag : false;
     });
+    addInput(arr);
   };
 
   const [status, setStatusMessage] = useState({ message: "", success: null });
@@ -40,71 +40,66 @@ const ArticleEditor = (props) => {
   const changeTagValue = (e) => {
     const id = e.target.id;
     const value = e.target.value;
-    const arr = input.map((tag, index) => {
-      if (index === Number(id)) {
-        return value;
-      } else {
-        return tag;
-      }
-    });
+    const arr = input.map((tag, index) => (index === Number(id) ? value : tag));
     addInput(arr);
   };
 
   const onSubmit = async (data) => {
     const urlBase = new URL("https://blog.kata.academy/api/articles");
-    const token = localStorage.getItem("token");
-    const { title, description, body } = data;
 
     const method = location.pathname === "/new-article" ? "POST" : "PUT";
     const url =
       location.pathname === "/new-article"
         ? urlBase
         : `${urlBase}` + `/${param.id}`;
-    const res = await fetch(url, {
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      body: JSON.stringify({
-        article: {
-          title: title,
-          description: description,
-          body: body,
-          tagList: input,
-        },
-      }),
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          setStatusMessage((state) => {
-            return {
-              ...state,
-              message: "Something went wrong",
-              success: true,
-            };
-          });
-          res;
-        }
-        if (res.status === 200) {
-          setStatusMessage((state) => {
-            return {
-              ...state,
-              message: "Article published successfull",
-              success: true,
-            };
-          });
 
-          dispatch(fetchArticlesGlobal());
-        }
-      })
-      .catch(() => {
-        throw new Error(res);
-      });
+    try {
+      const res = fetchEditDeleteArticle(data, url, method, input);
+
+      if (res.status === 401) {
+        setStatusMessage((state) => {
+          return {
+            ...state,
+            message: "Something went wrong",
+            success: true,
+          };
+        });
+        res;
+      }
+      if (res.status === 200) {
+        setStatusMessage((state) => {
+          return {
+            ...state,
+            message: "Article published successfull",
+            success: true,
+          };
+        });
+        dispatch(fetchArticlesGlobal());
+      }
+    } catch (e) {
+      throw new Error(e.message);
+    }
     addInput([""]);
     reset();
   };
+
+  const tagArray = input.map((tag, index) => (
+    <div key={index + tag} className={styles.new_article_tagItem}>
+      <input
+        id={index}
+        className={styles.new_article_tag}
+        placeholder="tag"
+        defaultValue={tag}
+        onChange={(e) => changeTagValue(e)}
+      />
+      <input
+        type="button"
+        className={styles.new_article_tag_delete}
+        onClick={() => onDeleteTag(index)}
+        value="Delete"
+      />
+    </div>
+  ));
 
   return (
     <div className={styles.new_article_container}>
@@ -209,23 +204,7 @@ const ArticleEditor = (props) => {
             <p className={styles.new_article_header}>Tags</p>
             <div className={styles.new_article_tag_container}>
               <div className={styles.new_article_tags_collection}>
-                {input.map((tag, index) => (
-                  <div key={index} className={styles.new_article_tagItem}>
-                    <input
-                      id={index}
-                      className={styles.new_article_tag}
-                      placeholder="tag"
-                      defaultValue={tag}
-                      onChange={(e) => changeTagValue(e)}
-                    />
-                    <input
-                      type="button"
-                      className={styles.new_article_tag_delete}
-                      onClick={() => onDeleteTag(index)}
-                      value="Delete"
-                    />
-                  </div>
-                ))}
+                {tagArray}
               </div>
               <input
                 type="button"
@@ -244,11 +223,6 @@ const ArticleEditor = (props) => {
       </div>
     </div>
   );
-};
-
-ArticleEditor.propTypes = {
-  data: PropTypes.object,
-  title: PropTypes.string,
 };
 
 export default ArticleEditor;

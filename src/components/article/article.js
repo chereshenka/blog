@@ -22,6 +22,23 @@ const Article = (props) => {
   const { username, image } = author;
 
   const [imageError, setImageError] = useState(false);
+
+  const tagsSorter = () => {
+    if (tagList) {
+      return tagList.map(
+        (tag, index) =>
+          tag && (
+            <div key={index}>
+              <span className={styles.article_tag}>
+                {(String(tag).includes(" ") && tag.split(" ")[0]) ||
+                  (String(tag).length > 10 && String(tag).slice(0, 9)) ||
+                  String(tag)}
+              </span>
+            </div>
+          ),
+      );
+    }
+  };
   return (
     <>
       <div key={slug} className={styles.body}>
@@ -43,23 +60,7 @@ const Article = (props) => {
               />
             </div>
           </div>
-          <div className={styles.article_tags}>
-            {tagList
-              ? tagList.map((tag, index) =>
-                  tag ? (
-                    <div key={index}>
-                      <span className={styles.article_tag}>
-                        {String(tag).includes(" ")
-                          ? tag.split(" ").slice(0, 1)
-                          : String(tag).length > 10
-                          ? tag.split("").slice(0, 9)
-                          : String(tag)}
-                      </span>
-                    </div>
-                  ) : null,
-                )
-              : null}
-          </div>
+          <div className={styles.article_tags}>{tagsSorter()}</div>
           <div className={styles.article_text}>
             <p>{description}</p>
           </div>

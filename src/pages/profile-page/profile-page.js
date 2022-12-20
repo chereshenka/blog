@@ -81,7 +81,7 @@ const ProfilePage = () => {
       <div className={styles.profile_container}>
         <h3 className={styles.profile_title}>Edit profile</h3>
         <p className={status.success ? styles.success : styles.errors}>
-          {status.message ? status.message : null}
+          {status.message ? status.message : ""}
         </p>
         <div className={styles.profile_form}>
           <form
@@ -112,9 +112,7 @@ const ProfilePage = () => {
               />
               <span className={styles.errors}>
                 {errors?.username && errors?.username?.message}
-                {status.success === false && usernameError
-                  ? usernameError
-                  : null}
+                {status.success === false && usernameError ? usernameError : ""}
               </span>
             </label>
             <label>
@@ -135,7 +133,7 @@ const ProfilePage = () => {
                 {errors?.email && errors?.email?.message}
                 {status.success === false && status.message.email
                   ? status.message.email
-                  : null}
+                  : ""}
               </span>
             </label>
             <label>
@@ -144,11 +142,26 @@ const ProfilePage = () => {
                 className={
                   styles.profile_input_password + " " + styles.input_size
                 }
+                {...register("password", {
+                  required: "Input password.",
+                  minLength: {
+                    value: 6,
+                    message: "Min 6 char",
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: "Max 40 char",
+                  },
+                })}
                 type="password"
-                required
-                placeholder="New password"
-                defaultValue=""
+                placeholder="Password"
               />
+              <span className={styles.errors}>
+                {errors?.password && errors?.password?.message}
+                {status.success === false && status.message.password
+                  ? status.message.password
+                  : ""}
+              </span>
             </label>
             <label>
               <p className={styles.profile_label}>Avatar Image (url)</p>
@@ -168,7 +181,7 @@ const ProfilePage = () => {
               />
               <span className={styles.errors}>
                 {errors?.image && errors?.image?.message}
-                {status.success === false && emailError ? emailError : null}
+                {status.success === false && emailError ? emailError : ""}
               </span>
             </label>
             <button type="submit" className={styles.profile_submit}>

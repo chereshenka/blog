@@ -15,16 +15,31 @@ const ArticleList = () => {
 
   const items =
     articles && !isLoading && !error.length ? (
-      articles.map((art, index) => <Article key={index} {...art} />)
-    ) : isLoading && !error ? (
-      <Spin size="large" />
-    ) : (
+      <>
+        {articles.map((art, index) => (
+          <Article key={index} {...art} />
+        ))}
+        <Pagination
+          total={articlesCount}
+          pageSize={5}
+          hideOnSinglePage
+          showSizeChanger={false}
+          current={page}
+          defaultCurrent={1}
+          onChange={(e) => onChangePage(e)}
+        />
+      </>
+    ) : null;
+  const loading =
+    !articles && isLoading && !error ? <Spin size="large" /> : null;
+  const alertInfo =
+    !articles && !isLoading && error.length ? (
       <Alert
         message="Something went wrong, try another request"
         type="error"
         showIcon
       />
-    );
+    ) : null;
 
   const onChangePage = (e) => {
     const offset = e === 1 ? 0 : e * 5 - 5;
@@ -35,17 +50,8 @@ const ArticleList = () => {
   return (
     <>
       {items}
-      {articles && !isLoading && !error ? (
-        <Pagination
-          total={articlesCount}
-          pageSize={5}
-          hideOnSinglePage
-          showSizeChanger={false}
-          current={page}
-          defaultCurrent={1}
-          onChange={(e) => onChangePage(e)}
-        />
-      ) : null}
+      {loading}
+      {alertInfo}
     </>
   );
 };

@@ -95,7 +95,7 @@ const EnterPage = () => {
                   " " +
                   (errors?.email && errors?.email?.message
                     ? styles.input_error
-                    : null)
+                    : "")
                 }
                 type="email"
                 {...register("email", {

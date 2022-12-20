@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux/es";
 
-import { token } from "../../store/reducers/actions";
-
 import styles from "./follow.module.scss";
 
 const Follow = (props) => {
@@ -15,23 +13,26 @@ const Follow = (props) => {
   const likeSubmit = async () => {
     const urlBase = new URL("https://blog.kata.academy/api/articles");
     setHeartState((state) => !state);
+    const token = localStorage.getItem("token");
     const method = !heartState ? "POST" : "DELETE";
-    await fetch(urlBase + `/${id}/favorite`, {
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        setHeartCount(() => json.article.favoritesCount);
-        setHeartState(() => json.article.favorited);
-      })
-      .catch((e) => {
-        throw new Error(e.message);
-      });
+    isLoggedIn && token
+      ? await fetch(urlBase + `/${id}/favorite`, {
+          method: method,
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            setHeartCount(() => json.article.favoritesCount);
+            setHeartState(() => json.article.favorited);
+          })
+          .catch((e) => {
+            throw new Error(e.message);
+          })
+      : console.log(isLoggedIn, token);
   };
   return (
     <>

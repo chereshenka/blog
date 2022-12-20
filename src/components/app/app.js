@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 
 import ArticleList from "../../pages/article-list/article-list";
@@ -18,6 +18,8 @@ import RequireAuth from "../../hoc/RequireAuth";
 import ArticleChange from "../../pages/article-edit/article-edit";
 
 export default function App() {
+  const { isLoggedIn } = useSelector((state) => state.loginReducer);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchArticlesGlobal());
@@ -25,7 +27,7 @@ export default function App() {
   }, []);
 
   const userDataFetch = () => {
-    if (token) {
+    if (token && !isLoggedIn) {
       dispatch(checkUserLogin());
     }
   };
