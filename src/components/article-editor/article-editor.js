@@ -38,7 +38,6 @@ const ArticleEditor = (props) => {
   const [status, setStatusMessage] = useState({ message: "", success: null });
 
   const changeTagValue = (e) => {
-    console.log(e.value);
     const id = e.target.id;
     const value = e.target.value;
     const arr = input.map((tag, index) => (index === Number(id) ? value : tag));
@@ -107,6 +106,7 @@ const ArticleEditor = (props) => {
       <h3 className={styles.new_article_title}>{props.title}</h3>
       <p className={status.success ? styles.success : styles.errors}>
         {status.message ? status.message : null}
+        {console.log(status.message)}
       </p>
       <div className={styles.new_article_form}>
         <form
