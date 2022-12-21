@@ -105,6 +105,7 @@ const ArticleEditor = (props) => {
       <h3 className={styles.new_article_title}>{props.title}</h3>
       <p className={status.success ? styles.success : styles.errors}>
         {status.message ? status.message : null}
+        {console.log("status message null???>>>", status.message)}
       </p>
       <div className={styles.new_article_form}>
         <form
