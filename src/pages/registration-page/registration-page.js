@@ -28,64 +28,51 @@ const RegistrationPage = () => {
   const [emailError, setEmailError] = useState("");
 
   const onSubmit = async (data) => {
-    const urlBase = new URL("https://blog.kata.academy/api/users");
+    const url = new URL("https://blog.kata.academy/api/users");
     const { username, email, password } = data;
-    const res = await fetch(urlBase, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          username: username,
-          email: email,
-          password: password,
-        },
-      }),
-    })
-      .then(async (res) => {
-        if (res.status === 422) {
-          const error = await res.json();
-          setRegisterMessage((state) => {
-            return {
-              ...state,
-              message: "",
-              success: false,
-            };
-          });
-          setUsernameError(error.errors.username || "");
-          setEmailError(error.errors.email || "");
-        } else {
-          return res.json();
-        }
-      })
-      .then((json) => {
-        return json.user;
-      });
-    if (res.username) {
-      localStorage.setItem("token", res.token);
-      dispatch(
-        loginUser({
-          isLoggedIn: true,
-          user: res,
-        }),
-      );
-      setRegisterMessage((state) => {
-        return {
-          ...state,
-          message: "Registration successfull",
-          success: true,
-        };
-      });
-      setUsernameError("");
-      setEmailError("");
-      reset();
-      push("/");
-    } else {
-      setRegisterMessage((state) => {
-        return { ...state, message: "Wrong data input", success: false };
-      });
+
+    try {
+      const res = await userRegistration(url, username, email, password);
+      if (res.status === 422) {
+        const error = await res.json();
+        setRegisterMessage((state) => {
+          return {
+            ...state,
+            message: "",
+            success: false,
+          };
+        });
+        setUsernameError(error.errors.username || "");
+        setEmailError(error.errors.email || "");
+      }
+
+      const json = res.json();
+      if (json.username) {
+        localStorage.setItem("token", json.token);
+        dispatch(
+          loginUser({
+            isLoggedIn: true,
+            user: res,
+          }),
+        );
+        setRegisterMessage((state) => {
+          return {
+            ...state,
+            message: "Registration successfull",
+            success: true,
+          };
+        });
+        setUsernameError("");
+        setEmailError("");
+        reset();
+        push("/");
+      } else {
+        setRegisterMessage((state) => {
+          return { ...state, message: "Wrong data input", success: false };
+        });
+      }
+    } catch (e) {
+      throw new Error(e.message);
     }
   };
 
