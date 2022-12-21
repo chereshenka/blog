@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+import { userDataFetch } from "../../fetch-server/user-data-registration";
 import { loginUser } from "../../store/reducers/actions";
 
 import styles from "./registration-page.module.scss";
-
 const RegistrationPage = () => {
   const {
     register,
@@ -28,47 +28,31 @@ const RegistrationPage = () => {
   const [emailError, setEmailError] = useState("");
 
   const onSubmit = async (data) => {
-    const urlBase = new URL("https://blog.kata.academy/api/users");
+    const url = new URL("https://blog.kata.academy/api/users");
     const { username, email, password } = data;
-    const res = await fetch(urlBase, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          username: username,
-          email: email,
-          password: password,
-        },
-      }),
-    })
-      .then(async (res) => {
-        if (res.status === 422) {
-          const error = await res.json();
-          setRegisterMessage((state) => {
-            return {
-              ...state,
-              message: "",
-              success: false,
-            };
-          });
-          setUsernameError(error.errors.username || "");
-          setEmailError(error.errors.email || "");
-        } else {
-          return res.json();
-        }
-      })
-      .then((json) => {
-        return json.user;
+
+    const res = await userDataFetch(url, username, email, password);
+    if (res.status === 422) {
+      const error = await res.json();
+      setRegisterMessage((state) => {
+        return {
+          ...state,
+          message: "",
+          success: false,
+        };
       });
-    if (res.username) {
-      localStorage.setItem("token", res.token);
+      setUsernameError(error.errors.username || "");
+      setEmailError(error.errors.email || "");
+      return;
+    }
+    const json = await res.json();
+    if (json.user) {
+      console.log(json);
+      localStorage.setItem("token", json.user.token);
       dispatch(
         loginUser({
           isLoggedIn: true,
-          user: res,
+          user: json.user,
         }),
       );
       setRegisterMessage((state) => {

@@ -14,7 +14,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const push = useNavigate();
   const [imageError, setImageError] = useState(false);
-
   return (
     <>
       <div className={styles.container}>
@@ -41,7 +40,11 @@ const Header = () => {
                   </p>
                   <img
                     onError={() => setImageError(true)}
-                    src={imageError ? avatar : user.image}
+                    src={
+                      imageError || user.image == undefined
+                        ? avatar
+                        : user.image
+                    }
                     className={styles.header_logged_avatar}
                   />
                 </div>

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux/es";
 
-import { loginUser, token } from "../../store/reducers/actions";
+import { changeUserData } from "../../fetch-server/change-profile";
+import { loginUser } from "../../store/reducers/actions";
 
 import styles from "./profile-page.module.scss";
 
@@ -23,57 +24,40 @@ const ProfilePage = () => {
   const [emailError, setEmailError] = useState("");
 
   const onSubmit = async (data) => {
-    const urlBase = new URL("https://blog.kata.academy/api/user");
+    const url = new URL("https://blog.kata.academy/api/user");
     const { username, email, password, image } = data;
-    await fetch(urlBase, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      body: JSON.stringify({
-        user: {
-          email: email,
-          password: password,
-          username: username,
-          image: image,
-        },
-      }),
-    })
-      .then(async (res) => {
-        if (res.status === 422) {
-          const error = await res.json();
-          setStatusMessage((state) => {
-            return {
-              ...state,
-              message: "",
-              success: false,
-            };
-          });
-          setUsernameError(error.errors.username || "");
-          setEmailError(error.errors.email || "");
-        }
-        if (res.ok) {
-          setStatusMessage((state) => {
-            return {
-              ...state,
-              message: "Profile changed succesful",
-              success: true,
-            };
-          });
-          reset();
-        }
-        return res.json();
-      })
-      .then((json) => {
+    try {
+      const res = await changeUserData(url, username, email, password, image);
+
+      if (res.status === 422) {
+        const error = await res.json();
+        setStatusMessage((state) => {
+          return {
+            ...state,
+            message: "",
+            success: false,
+          };
+        });
+        setUsernameError(error.errors.username || "");
+        setEmailError(error.errors.email || "");
+        return;
+      }
+      if (res.ok) {
+        setStatusMessage((state) => {
+          return {
+            ...state,
+            message: "Profile changed succesful",
+            success: true,
+          };
+        });
+        const json = await res.json();
         localStorage.setItem("token", json.user.token);
         dispatch(loginUser({ isLoggedIn: true, user: json.user }));
         reset();
-      })
-      .catch((e) => {
-        throw new Error(e.message);
-      });
+      }
+    } catch (e) {
+      throw new Error(e.message);
+    }
   };
 
   return (

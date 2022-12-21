@@ -9,6 +9,7 @@ import avatar from "../../img/avatar.png";
 import { fetchSingle, fetchArticlesGlobal } from "../../store/reducers/actions";
 import Follow from "../../components/follow/follow";
 import Vector from "../../img/Vector.svg";
+import { getFullArticle } from "../../fetch-server/get-full-article";
 
 import styles from "./single-page.module.scss";
 
@@ -32,26 +33,16 @@ const SinglePage = () => {
   const [imageError, setImageError] = useState(false);
 
   const deleteArticle = async () => {
-    const urlBase = new URL("https://blog.kata.academy/api/articles/");
-    const token = localStorage.getItem("token");
-
-    await fetch(`${urlBase + id}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-    })
-      .then((data) => {
-        if (data.ok) {
-          dispatch(fetchArticlesGlobal());
-          push("/");
-        }
-      })
-      .catch((e) => {
-        throw new Error(e.message);
-      });
+    const url = new URL("https://blog.kata.academy/api/articles/");
+    try {
+      const res = await getFullArticle(url, id);
+      if (res.ok) {
+        dispatch(fetchArticlesGlobal());
+        push("/");
+      }
+    } catch (e) {
+      throw new Error(e.message);
+    }
   };
 
   return (

@@ -54,14 +54,13 @@ const ArticleEditor = (props) => {
         : `${urlBase}` + `/${param.id}`;
 
     try {
-      const res = fetchEditDeleteArticle(data, url, method, input);
-
+      const res = await fetchEditDeleteArticle(data, url, method, input);
       if (res.status === 401) {
         setStatusMessage((state) => {
           return {
             ...state,
             message: "Something went wrong",
-            success: true,
+            success: false,
           };
         });
         res;
@@ -90,7 +89,7 @@ const ArticleEditor = (props) => {
         className={styles.new_article_tag}
         placeholder="tag"
         defaultValue={tag}
-        onChange={(e) => changeTagValue(e)}
+        onBlur={(e) => changeTagValue(e)}
       />
       <input
         type="button"

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux/es";
 
 import { loginUser } from "../../store/reducers/actions";
+import { userSystemLogin } from "../../fetch-server/user-system-login";
 
 import styles from "./enter-page.module.scss";
 
@@ -22,22 +23,10 @@ const EnterPage = () => {
 
   const onSubmit = async (data) => {
     if (!isLoggedIn) {
-      const urlBase = new URL("https://blog.kata.academy/api/users/login");
+      const url = new URL("https://blog.kata.academy/api/users/login");
       const { email, password } = data;
       try {
-        const response = await fetch(urlBase, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: {
-              email: email,
-              password: password,
-            },
-          }),
-        });
+        const response = await userSystemLogin(url, email, password);
 
         if (response.status === 422) {
           setError((state) => {
