@@ -44,6 +44,7 @@ const RegistrationPage = () => {
         });
         setUsernameError(error.errors.username || "");
         setEmailError(error.errors.email || "");
+        return;
       }
 
       const json = res.json();
