@@ -5,26 +5,32 @@ import { singleArticleSlice } from "./single-article-reducer";
 const urlBase = new URL("https://blog.kata.academy/api/");
 export const token = localStorage.getItem("token");
 
-export const fetchArticlesGlobal = (page) => async (dispatch) => {
-  const articleUrl = new URL("articles?", urlBase);
-  const params = new URLSearchParams({
-    offset: page || 0,
-    limit: 5,
-  });
-  try {
-    dispatch(articleSlice.actions.fetchArticles());
-    const response = await fetch(articleUrl + params, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-    }).then((res) => res.json());
-    dispatch(articleSlice.actions.fetchArticlesSuccess(response));
-  } catch (e) {
-    dispatch(articleSlice.actions.fetchArticlesError(e.message));
-  }
-};
+export const fetchArticlesGlobal =
+  (page = 1) =>
+  async (dispatch) => {
+    const articleUrl = new URL("articles?", urlBase);
+    const params = new URLSearchParams({
+      offset: page,
+      limit: 5,
+    });
+    try {
+      dispatch(articleSlice.actions.fetchArticles());
+      const response = await fetch(articleUrl + params, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+      }).then((res) => res.json());
+      dispatch(
+        articleSlice.actions.fetchArticlesSuccess({
+          data: response,
+        }),
+      );
+    } catch (e) {
+      dispatch(articleSlice.actions.fetchArticlesError(e.message));
+    }
+  };
 
 export const fetchSingle = (slug) => async (dispatch) => {
   const singlePage = new URL(`articles/${slug}`, urlBase);

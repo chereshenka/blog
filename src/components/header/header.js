@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es";
 
 import avatar from "../../img/avatar.png";
@@ -10,6 +10,7 @@ const Header = () => {
   const { isLoggedIn, user } = useSelector((state) => {
     return state.loginReducer;
   });
+
   const dispatch = useDispatch();
   const push = useNavigate();
   const [imageError, setImageError] = useState(false);
@@ -18,11 +19,10 @@ const Header = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <Link
-            to="/"
             className={styles.header_title}
             onClick={() => {
               dispatch(fetchArticlesGlobal());
-              redirect("/");
+              push("/");
             }}
           >
             Realworld Blog

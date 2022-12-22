@@ -16,7 +16,7 @@ export const articleSlice = createSlice({
     fetchArticlesSuccess(state, action) {
       state.isLoading = false;
       state.error = "";
-      state.articles = action.payload;
+      state.articles = action.payload.data;
     },
     fetchArticlesError(state, action) {
       state.isLoading = false;
