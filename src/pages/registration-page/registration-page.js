@@ -47,7 +47,6 @@ const RegistrationPage = () => {
     }
     const json = await res.json();
     if (json.user) {
-      console.log(json);
       localStorage.setItem("token", json.user.token);
       dispatch(
         loginUser({

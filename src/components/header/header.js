@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es";
 
 import avatar from "../../img/avatar.png";
 import { fetchArticlesGlobal, loginUser } from "../../store/reducers/actions";
 
 import styles from "./header.module.scss";
-
 const Header = () => {
   const { isLoggedIn, user } = useSelector((state) => {
     return state.loginReducer;
@@ -21,7 +20,10 @@ const Header = () => {
           <Link
             to="/"
             className={styles.header_title}
-            onClick={() => dispatch(fetchArticlesGlobal())}
+            onClick={() => {
+              dispatch(fetchArticlesGlobal());
+              redirect("/");
+            }}
           >
             Realworld Blog
           </Link>

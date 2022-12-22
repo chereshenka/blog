@@ -75,8 +75,8 @@ const Article = (props) => {
           <div>
             <img
               onError={() => setImageError(true)}
+              src={imageError || image == undefined ? avatar : image}
               className={styles.user_avatar}
-              src={imageError ? avatar : image}
               alt="avatar"
             />
           </div>

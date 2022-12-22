@@ -95,9 +95,13 @@ const SinglePage = () => {
                 </div>
                 <div>
                   <img
-                    onError={() => setImageError(true)}
                     className={styles.user_avatar}
-                    src={imageError ? avatar : article.author.image}
+                    onError={() => setImageError(true)}
+                    src={
+                      imageError || user.image == undefined
+                        ? avatar
+                        : user.image
+                    }
                     alt="avatar"
                   />
                 </div>
