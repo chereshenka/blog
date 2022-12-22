@@ -1,6 +1,5 @@
-import { token } from "../store/reducers/actions";
-
 export const favotiteOptions = async (url, id, method) => {
+  const token = localStorage.getItem("token");
   return await fetch(url + `/${id}/favorite`, {
     method: method,
     headers: {

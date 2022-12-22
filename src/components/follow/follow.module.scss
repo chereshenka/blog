@@ -6,6 +6,9 @@
   &:hover{
     cursor:pointer
   }
+  &:disabled{
+    cursor:not-allowed;
+  }
   &_heart{
     font-size: 14px;
     margin-right: 5px;

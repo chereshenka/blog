@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux/es";
 
@@ -7,10 +7,11 @@ import { loginUser } from "../../store/reducers/actions";
 import { userSystemLogin } from "../../fetch-server/user-system-login";
 
 import styles from "./enter-page.module.scss";
-
 const EnterPage = () => {
   const dispatch = useDispatch();
+  const push = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.loginReducer);
+  if (isLoggedIn) redirect("/");
 
   const {
     register,
@@ -18,7 +19,6 @@ const EnterPage = () => {
     handleSubmit,
   } = useForm({ mode: "onBlur" });
 
-  const push = useNavigate();
   const [error, setError] = useState("");
 
   const onSubmit = async (data) => {
@@ -64,8 +64,6 @@ const EnterPage = () => {
       }
     }
   };
-
-  if (isLoggedIn) push("/");
 
   return (
     <>

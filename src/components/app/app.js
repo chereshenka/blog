@@ -37,6 +37,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<ArticleList />} />
+          <Route path="/articles/" element={<ArticleList />} />
           <Route path="/articles/:id" element={<SinglePage />} />
           <Route path="/sing-in" element={<EnterPage />} />
           <Route path="/sing-up" element={<RegistrationPage />} />

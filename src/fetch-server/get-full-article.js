@@ -1,6 +1,6 @@
-import { token } from "../store/reducers/actions";
-
 export const getFullArticle = async (url, id) => {
+  const token = localStorage.getItem("token");
+
   return await fetch(`${url + id}`, {
     method: "DELETE",
     headers: {

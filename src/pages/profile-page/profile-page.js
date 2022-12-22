@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux/es";
+import { useDispatch, useSelector } from "react-redux/es";
 
 import { changeUserData } from "../../fetch-server/change-profile";
 import { loginUser } from "../../store/reducers/actions";
 
 import styles from "./profile-page.module.scss";
-
 const ProfilePage = () => {
   const {
     register,
@@ -15,6 +14,9 @@ const ProfilePage = () => {
     reset,
   } = useForm({ mode: "onBlur" });
 
+  const { user } = useSelector((state) => {
+    return state.loginReducer;
+  });
   const dispatch = useDispatch();
   const [status, setStatusMessage] = useState({
     message: "",
@@ -92,6 +94,7 @@ const ProfilePage = () => {
                     message: "Max 20 char",
                   },
                 })}
+                defaultValue={user.username}
                 placeholder="Username"
               />
               <span className={styles.errors}>
@@ -111,6 +114,7 @@ const ProfilePage = () => {
                     message: "Should input valid email.",
                   },
                 })}
+                defaultValue={user.email}
                 placeholder="Email adress"
               />
               <span className={styles.errors}>
@@ -160,8 +164,8 @@ const ProfilePage = () => {
                     message: "Link should be valid",
                   },
                 })}
+                defaultValue={user.image}
                 placeholder="Image Url"
-                defaultValue=""
               />
               <span className={styles.errors}>
                 {errors?.image && errors?.image?.message}

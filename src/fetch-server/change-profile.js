@@ -1,6 +1,6 @@
-import { token } from "../store/reducers/actions";
-
 export const changeUserData = async (url, username, email, password, image) => {
+  const token = localStorage.getItem("token");
+
   return await fetch(url, {
     method: "PUT",
     headers: {
